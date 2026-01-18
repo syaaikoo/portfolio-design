@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Wifi, 
   MapPin, 
@@ -12,20 +12,88 @@ import {
   Construction,
   Router,
   CreditCard,
-  ArrowUpRight
+  ArrowUpRight,
+  Download,
+  FileCode,
+  ScanLine
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import SkillChart from './components/SkillChart';
 import NetworkMap from './components/NetworkMap';
 import Card from './components/Card';
+import MusicPlayer from './components/MusicPlayer'; // Added Import
 import { INTERN_DATA, COMPANY_DATA, SKILLS_DATA } from './constants';
+// @ts-ignore
+import html2canvas from 'html2canvas';
 
 const App: React.FC = () => {
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleDownloadId = async () => {
+    setIsGenerating(true);
+    
+    // Simulate encryption delay
+    setTimeout(async () => {
+      const element = document.getElementById('digital-id-card');
+      if (element) {
+        try {
+          const canvas = await html2canvas(element, {
+            scale: 2, // Higher resolution
+            backgroundColor: '#000000',
+            logging: false
+          });
+          
+          const image = canvas.toDataURL("image/png");
+          const link = document.createElement('a');
+          link.href = image;
+          link.download = `ID-CARD-${INTERN_DATA.idNumber}.png`;
+          link.click();
+        } catch (error) {
+          console.error("Export failed", error);
+        }
+      }
+      setIsGenerating(false);
+    }, 2000);
+  };
+
   return (
     <div className="min-h-screen w-full relative overflow-x-hidden bg-neutral-950 text-neutral-200 selection:bg-white selection:text-black">
       
+      {/* Background Music Player */}
+      <MusicPlayer />
+
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#262626_1px,transparent_1px),linear-gradient(to_bottom,#262626_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20 pointer-events-none"></div>
+
+      {/* GENERATING OVERLAY */}
+      <AnimatePresence>
+        {isGenerating && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/90 flex flex-col items-center justify-center backdrop-blur-md"
+          >
+            <div className="w-64 space-y-4">
+               <div className="flex justify-between text-xs font-mono text-green-500 mb-1">
+                 <span>ENCRYPTING DATA</span>
+                 <span className="animate-pulse">...</span>
+               </div>
+               <div className="h-1 w-full bg-neutral-800 rounded-full overflow-hidden">
+                 <motion.div 
+                   className="h-full bg-green-500"
+                   initial={{ width: "0%" }}
+                   animate={{ width: "100%" }}
+                   transition={{ duration: 1.8, ease: "easeInOut" }}
+                 />
+               </div>
+               <div className="text-[10px] text-neutral-500 font-mono text-center">
+                 GENERATING SECURE CREDENTIALS (PNG)
+               </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <main className="relative z-10 max-w-5xl mx-auto px-4 py-12 md:py-20">
         
@@ -75,10 +143,19 @@ const App: React.FC = () => {
               </div>
 
               <div className="w-full border-t border-neutral-800 pt-4 mt-auto">
-                 <div className="flex justify-between text-xs font-mono text-neutral-500">
+                 <div className="flex justify-between text-xs font-mono text-neutral-500 mb-3">
                     <span>JOINED</span>
                     <span>{INTERN_DATA.startDate}</span>
                  </div>
+                 
+                 {/* Export Button */}
+                 <button 
+                  onClick={handleDownloadId}
+                  className="w-full py-2 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold rounded flex items-center justify-center gap-2 transition-all border border-neutral-700 hover:border-neutral-500"
+                 >
+                   <Download size={12} />
+                   EXPORT ID CARD
+                 </button>
               </div>
             </Card>
 
@@ -233,6 +310,64 @@ const App: React.FC = () => {
           </div>
         </div>
       </main>
+
+      {/* HIDDEN ID CARD TEMPLATE FOR EXPORT */}
+      <div 
+        id="digital-id-card" 
+        className="fixed top-0 left-0 -z-50 w-[400px] bg-white text-black p-6 font-mono"
+        style={{ transform: 'translateX(-9999px)' }}
+      >
+        {/* Card Header */}
+        <div className="flex justify-between items-start border-b-2 border-black pb-4 mb-4">
+          <div className="flex flex-col">
+            <h1 className="text-2xl font-bold tracking-tighter">ANDROMEGA</h1>
+            <span className="text-[10px] tracking-widest uppercase">Network Infrastructure</span>
+          </div>
+          <ScanLine size={32} />
+        </div>
+
+        {/* Photo & Main Info */}
+        <div className="flex gap-4 mb-6">
+          <div className="w-24 h-32 bg-neutral-200 border border-black grayscale">
+             <img src="https://files.catbox.moe/ckf1b3.jpg" className="w-full h-full object-cover filter grayscale contrast-125" />
+          </div>
+          <div className="flex flex-col justify-between py-1">
+            <div>
+              <span className="text-[10px] text-neutral-500 block mb-0.5">NAME</span>
+              <span className="font-bold text-lg leading-none uppercase block mb-3">{INTERN_DATA.name}</span>
+              
+              <span className="text-[10px] text-neutral-500 block mb-0.5">ROLE</span>
+              <span className="font-bold text-sm leading-none uppercase block">{INTERN_DATA.role}</span>
+            </div>
+            <div>
+              <span className="text-[10px] text-neutral-500 block mb-0.5">ID NUMBER</span>
+              <span className="font-bold text-sm bg-black text-white px-1 inline-block">{INTERN_DATA.idNumber}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Codes */}
+        <div className="border-t-2 border-black pt-4 flex justify-between items-end">
+          <div className="flex flex-col">
+            <span className="text-[8px] uppercase tracking-wider mb-1">Authorization Level 1</span>
+            <div className="flex gap-1">
+              {[1,2,3,4].map(i => <div key={i} className="w-4 h-1 bg-black"></div>)}
+            </div>
+          </div>
+          <div className="text-right">
+             <div className="w-24 h-8 bg-black/10 mb-1 flex items-center justify-center">
+                {/* Fake Barcode */}
+                <div className="w-full h-4 flex justify-between px-2">
+                   {Array.from({length: 20}).map((_,i) => (
+                     <div key={i} className="w-[1px] bg-black h-full" style={{opacity: Math.random() > 0.5 ? 1 : 0}}></div>
+                   ))}
+                </div>
+             </div>
+             <span className="text-[8px] font-bold">VALID: 2024-2025</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };
