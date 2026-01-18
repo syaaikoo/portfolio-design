@@ -15,13 +15,17 @@ import {
   ArrowUpRight,
   Download,
   FileCode,
-  ScanLine
+  ScanLine,
+  MessageSquare,
+  Instagram,
+  Radio
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SkillChart from './components/SkillChart';
 import NetworkMap from './components/NetworkMap';
 import Card from './components/Card';
-import MusicPlayer from './components/MusicPlayer'; // Added Import
+import MusicPlayer from './components/MusicPlayer'; 
+import OperationalStatus from './components/OperationalStatus'; // Added Import
 import { INTERN_DATA, COMPANY_DATA, SKILLS_DATA } from './constants';
 // @ts-ignore
 import html2canvas from 'html2canvas';
@@ -221,6 +225,57 @@ const App: React.FC = () => {
               </div>
             </Card>
 
+            {/* Contact / Direct Uplink */}
+            <Card delay={0.25} className="group relative overflow-hidden">
+               {/* Decorative background element */}
+               <div className="absolute -top-4 -right-4 w-20 h-20 bg-neutral-800/30 rounded-full blur-xl group-hover:bg-green-900/20 transition-colors duration-500"></div>
+               
+               <h3 className="font-bold text-white flex items-center gap-2 mb-4 relative z-10">
+                 <Radio size={16} className="text-green-500 animate-pulse" />
+                 DIRECT UPLINK
+               </h3>
+
+               <div className="space-y-3 relative z-10">
+                 {/* WhatsApp Button */}
+                 <a 
+                   href="https://wa.me/6281553362795" 
+                   target="_blank" 
+                   rel="noreferrer"
+                   className="flex items-center justify-between p-3 bg-neutral-900/80 border border-neutral-800 rounded hover:border-green-500/50 hover:bg-green-950/20 transition-all group/btn"
+                 >
+                   <div className="flex items-center gap-3">
+                      <div className="p-2 bg-neutral-800 rounded group-hover/btn:bg-green-500/20 group-hover/btn:text-green-500 transition-colors">
+                        <MessageSquare size={18} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] text-neutral-500 font-mono group-hover/btn:text-green-400 transition-colors">WHATSAPP</span>
+                        <span className="text-sm font-bold text-white tracking-wide font-mono">0815-5336-2795</span>
+                      </div>
+                   </div>
+                   <ArrowUpRight size={14} className="text-neutral-600 group-hover/btn:text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                 </a>
+
+                 {/* Instagram Button */}
+                 <a 
+                   href="https://instagram.com/aaaditz" 
+                   target="_blank" 
+                   rel="noreferrer"
+                   className="flex items-center justify-between p-3 bg-neutral-900/80 border border-neutral-800 rounded hover:border-pink-500/50 hover:bg-pink-950/20 transition-all group/btn"
+                 >
+                   <div className="flex items-center gap-3">
+                      <div className="p-2 bg-neutral-800 rounded group-hover/btn:bg-pink-500/20 group-hover/btn:text-pink-500 transition-colors">
+                        <Instagram size={18} />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[10px] text-neutral-500 font-mono group-hover/btn:text-pink-400 transition-colors">INSTAGRAM</span>
+                        <span className="text-sm font-bold text-white tracking-wide font-mono">@aaaditz</span>
+                      </div>
+                   </div>
+                   <ArrowUpRight size={14} className="text-neutral-600 group-hover/btn:text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+                 </a>
+               </div>
+            </Card>
+
           </div>
 
           {/* Right Column: Company Info & Operations */}
@@ -248,6 +303,9 @@ const App: React.FC = () => {
                 </div>
               </div>
             </Card>
+
+            {/* NEW OPERATIONAL STATUS COMPONENT HERE */}
+            <OperationalStatus />
 
             {/* Network Interactive Map */}
             <Card delay={0.4} className="p-0 border-none bg-transparent !overflow-visible">
