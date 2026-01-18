@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Music, Volume2, VolumeX, ShieldCheck, Play } from 'lucide-react';
 
-const AUDIO_URL = "https://files.catbox.moe/s6sok6.m4a";
+const AUDIO_URL = "https://files.catbox.moe/p8wo6x.mp3";
 
 const MusicPlayer: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
