@@ -56,9 +56,12 @@ const App: React.FC = () => {
             {/* Identity Card */}
             <Card delay={0.1} className="flex flex-col items-center text-center">
               <div className="w-24 h-24 rounded-full bg-gradient-to-b from-neutral-200 to-neutral-600 p-[2px] mb-4 shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden">
-                   <User size={48} className="text-neutral-400" />
-                   {/* Replace with actual image: <img src="..." className="w-full h-full object-cover" /> */}
+                <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden relative group">
+                   <img 
+                    src="https://files.catbox.moe/ckf1b3.jpg" 
+                    alt="Fa'al Aditya Purnama" 
+                    className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                   />
                 </div>
               </div>
               <h2 className="text-2xl font-bold text-white">{INTERN_DATA.name}</h2>
