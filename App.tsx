@@ -25,7 +25,7 @@ import SkillChart from './components/SkillChart';
 import NetworkMap from './components/NetworkMap';
 import Card from './components/Card';
 import MusicPlayer from './components/MusicPlayer'; 
-import OperationalStatus from './components/OperationalStatus'; // Added Import
+import OperationalStatus from './components/OperationalStatus';
 import { INTERN_DATA, COMPANY_DATA, SKILLS_DATA } from './constants';
 // @ts-ignore
 import html2canvas from 'html2canvas';
@@ -63,11 +63,22 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen w-full relative overflow-x-hidden bg-neutral-950 text-neutral-200 selection:bg-white selection:text-black">
       
+      {/* Futuristic GIF Background Layer */}
+      <div 
+        className="fixed inset-0 z-0 opacity-50 pointer-events-none grayscale brightness-[0.3] contrast-125"
+        style={{
+          backgroundImage: `url('https://c.tenor.com/dM-mLNrpXxQAAAAd/tenor.gif')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          mixBlendMode: 'screen'
+        }}
+      ></div>
+
       {/* Background Music Player */}
       <MusicPlayer />
 
-      {/* Background Grid Pattern */}
-      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#262626_1px,transparent_1px),linear-gradient(to_bottom,#262626_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20 pointer-events-none"></div>
+      {/* Background Grid Pattern Overlay */}
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#262626_1px,transparent_1px),linear-gradient(to_bottom,#262626_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30 pointer-events-none"></div>
 
       {/* GENERATING OVERLAY */}
       <AnimatePresence>
@@ -304,7 +315,7 @@ const App: React.FC = () => {
               </div>
             </Card>
 
-            {/* NEW OPERATIONAL STATUS COMPONENT HERE */}
+            {/* Operational Status Component */}
             <OperationalStatus />
 
             {/* Network Interactive Map */}
